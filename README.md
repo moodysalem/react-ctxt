@@ -1,4 +1,4 @@
-# [![Build Status](https://travis-ci.org/moodysalem/react-ctxt.svg?branch=gh-pages)](https://travis-ci.org/moodysalem/react-ctxt) react-ctxt
+# [![Build Status](https://travis-ci.org/moodysalem/react-ctxt.svg?branch=gh-pages)](https://travis-ci.org/moodysalem/react-ctxt) [![npm](https://img.shields.io/npm/v/react-ctxt.svg)](https://www.npmjs.com/search?q=react-ctxt) react-ctxt
 
 An alternative to using React's experimental context feature that doesn't rely on React context but provides a similar 
 mechanism for passing a prop all the way down the tree. It uses `react-side-effect` to share state across the app, and 
