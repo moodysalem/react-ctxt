@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ReactCtxt</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+          integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous"/>
+</head>
+<body>
+<div class="container">
+    <h1 class="page-header">React Context</h1>
+
+    <p class="lead">
+        This is a context demo
+    </p>
+
+    <div id="app">
+        <p>Loading React...</p>
+    </div>
+</div>
+
+<!-- babel -->
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<!-- react 15.4.1 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react.js"
+        integrity="sha256-Ts/ugRJsJSTNoEo7mI4RNnNloSCw+ctm4ft8V0x/SUg=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.js"
+        integrity="sha256-wOXsmc3/F0mnd8nrFf9RjyeImU8O9uhah1vLdYhUPe4=" crossorigin="anonymous"></script>
+
+<script src="./dist/react-ctxt.js"></script>
+<script type="text/babel">
+  'use strict';
+
+  const { Provider, Inject } = window.ReactContext;
+
+  class UsesContextVariable extends React.PureComponent {
+    static propTypes = {
+      context: React.PropTypes.object
+    };
+
+    render() {
+      const { context } = this.props;
+
+      return <div>injected context: {JSON.stringify(context)}</div>;
+    };
+  }
+
+  class App extends React.PureComponent {
+    state = {
+      contextVariable: ''
+    };
+
+    render() {
+      const { contextVariable } = this.state;
+
+      return (
+              <div>
+                  <input type="text" value={contextVariable}
+                         className="form-control"
+                         placeholder="contextVariable"
+                         onChange={({ target:{ value:contextVariable } }) => this.setState({ contextVariable })}/>
+
+
+                  <Provider provides={{ otherVariable: contextVariable }}/>
+
+                  <Inject requires={[ 'contextVariable', 'otherVariable' ]}>
+                      <UsesContextVariable/>
+                  </Inject>
+
+                  <Provider provides={{ contextVariable }}/>
+
+              </div>
+      );
+    }
+  }
+
+  ReactDOM.render(
+          <App/>,
+    document.getElementById('app')
+  );
+</script>
+</body>
+</html>
