@@ -1,16 +1,14 @@
 # [![Build Status](https://travis-ci.org/moodysalem/react-ctxt.svg?branch=gh-pages)](https://travis-ci.org/moodysalem/react-ctxt) [![npm](https://img.shields.io/npm/v/react-ctxt.svg)](https://www.npmjs.com/package/react-ctxt) react-ctxt
 
-An alternative to using React's experimental context feature that doesn't rely on React context but provides a similar 
-mechanism for passing a prop all the way down the tree. It uses `react-side-effect` to share state across the app, and 
-forces updates on any components that rely on context when the context changes.
+An alternative to using React context that provides a similar mechanism for passing a prop all the way down the tree. It uses `react-side-effect` to share state across the app, and forces updates on any components that rely on context when the context changes.
 
 ## Purpose
 Provide a replacement API for React context that meets all the use cases using only the props API and familiar JSX.
 
 ## Differences
-Providers in react context can live anywhere and provide variables for their parent components. Context is just not just 
-provided for the children of a Provider component. This is due to the technical difficulty of trying to figure out component
-hierarchies without slipping into React internals.
+Providers in react context can live anywhere and context is merged throughout the application, with context from the children taking precedence in the final context.
+
+This makes this component not safe for server-side rendering. Multiple synchronous renders will clear the shared context, but simultaneous renders may update the same shared context object.
 
 ## Example
 A provider adds some variables to the application context, and Inject passes globals to  
