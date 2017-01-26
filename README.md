@@ -11,7 +11,7 @@ Providers in react context can live anywhere and context is merged throughout th
 This makes this component not safe for server-side rendering. Multiple synchronous renders will clear the shared context, but simultaneous renders may update the same shared context object.
 
 ## Example
-A provider adds some variables to the application context, and Inject passes globals to  
+A provider adds some variables to the application context, and Inject passes context as a prop to its children. It has an optional parameter to require particular context variables that prevents rendering the child until the context is available.
 
 ```jsx
 import React, { PureComponent } from 'react';
