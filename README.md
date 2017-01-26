@@ -1,7 +1,8 @@
 # react-ctxt
 
 An alternative to using React's experimental context feature that doesn't rely on React context but provides a similar 
-mechanism for passing a prop all the way down the tree.
+mechanism for passing a prop all the way down the tree. It uses `react-side-effect` to share state across the app, and 
+forces updates on any components that rely on context when the context changes.
 
 ## Purpose
 Provide a replacement API for React context that meets all the use cases using only the props API and familiar JSX.
@@ -12,10 +13,11 @@ provided for the children of a Provider component. This is due to the technical 
 hierarchies without slipping into React internals.
 
 ## Example
+A provider adds some variables to the application context, and Inject passes globals to  
 
 ```jsx
 import React, { PureComponent } from 'react';
-import { inject, Provider } from 'rcplx';
+import { Inject, Provider } from 'react-ctxt';
 
 class ThemedComponent extends PureComponent {
   static propTypes = {
@@ -28,24 +30,33 @@ class ThemedComponent extends PureComponent {
   };
 
   render() {
+    const { context } = this.props;
+    
     return (
-      <div>Hello World!</div>
+      <div style={{ color: context.theme.primaryColor, backgroundColor: context.theme.secondaryColor }}>
+        Hello World!
+      </div>
     );
   }
 }
 
-// returns a new component that receives its context from the parent
-export default inject([ 'theme' ])(ThemedComponent);
-
-const ComponentWrapper = props => <div {...props}><ThemedComponent/></div>;
+const SomeComponent = props => (
+  <div {...props}>
+    <Inject requires="theme">
+      <ThemedComponent/>
+    </Inject>
+  </div>
+);
 
 class App extends PureComponent {
   render() {
 
     return (
-      <Provide context={{ theme: { primaryColor: 'red', secondaryColor: 'blue' } }}>
-        <ComponentWrapper/>
-      </Provide>
+      <div>
+        <SomeComponent/>
+
+        <Provider provides={{ theme: { primaryColor: 'red', secondaryColor: 'blue' } }}/>
+      </div>
     );
   }
 }
