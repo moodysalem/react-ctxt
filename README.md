@@ -19,17 +19,21 @@ import { Inject, Provider } from 'react-ctxt';
 
 class ThemedComponent extends PureComponent {
   static propTypes = {
-    theme: PropTypes.shape(
+    context: PropTypes.shape(
       {
-        primaryColor: PropTypes.string.isRequired,
-        secondaryColor: PropTypes.string.isRequired
+        theme: PropTypes.shape(
+          {
+            primaryColor: PropTypes.string.isRequired,
+            secondaryColor: PropTypes.string.isRequired
+          }
+        ).isRequired
       }
-    ).isRequired
+    )
   };
 
   render() {
     const { context } = this.props;
-    
+
     return (
       <div style={{ color: context.theme.primaryColor, backgroundColor: context.theme.secondaryColor }}>
         Hello World!
